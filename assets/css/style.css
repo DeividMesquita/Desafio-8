@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --header: #F5C632;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto Condensed", serif;
+}
+
+/*Header*/
+
+.l-navbar {
+    background-color: var(--header);
+}
+
+.c-navbar {
+    height: 60px;
+    align-items: center;
+}
