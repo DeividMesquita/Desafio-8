@@ -1,15 +1,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-    --header: #F5C632;
+    --water-type-hover: #74ACF5;
+    --water-type: #2980EF;
+    --steel-type-hover: #98C2D1;
+    --steel-type: #60A1B8;
+    --rock-type-hover: #CBC7AD;
+    --rock-type: #B0AA82;
+    --psychic-type-hover: #F584A8;
+    --psychic-type: #EF4179;
+    --poison-type-hover: #B884DD;
+    --poison-type: #9141CB;
+    --normal-type-hover: #C1C2C1;
+    --normal-type: #9FA19F;
+    --ice-type-hover: #81DFF7;
+    --ice-type: #3FD8FF;
+    --ground-type-hover: #B88E6F;
+    --ground-type: #915121;
+    --grass-type-hover: #82C274;
+    --grass-type: #3FA129;
+    --ghost-type-hover: #A284A2;
+    --ghost-type: #704170;
+    --flying-type-hover: #ADD2F5;
+    --flying-type: #81B9EF;
+    --fire-type-hover: #FFAC59;
+    --fire-type: #FF8000;
+    --fighting-type-hover: #EF7374;
+    --fighting-type: #E62829;
+    --fairy-type-hover: #F5A2F5;
+    --fairy-type: #EF70EF;
+    --electric-type-hover: #FCD659;
+    --electric-type: #FAC000;
+    --dragon-type-hover: #8D98EC;
+    --dragon-type: #5060E1;
+    --dark-type-hover: #998B8C;
+    --dark-type: #4F3F3D;
+    --bug-type-hover: #B8C26A;
+    --bug-type: #91A119;
+    --default: #FFFFFF;
+    --border-solid: #C9CCC9;
+    --unnamed-color-444444: #444444;
+    --box-shadow: #2C2C2C;
+    --unnamed-color-f5c632: #F5C632;
+    --favorites: #FC4242;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Roboto Condensed", serif;
 }
+
+
 
 /*Header*/
 
@@ -20,4 +63,144 @@
 .c-navbar {
     height: 60px;
     align-items: center;
+}
+
+.form-select {
+    font-size: 12px !important;
+    line-height: 1rem !important;
+    border-radius: 0px 0.3125rem 0.3125rem 0px !important;
+}
+
+
+.l-input__search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.l-input__search input {
+    width: 100%;
+    height: 1.875rem;
+    border: 1px solid var(--border-solid);
+    border-radius: 0px 0.3125rem 0.3125rem 0px;
+    padding-left: 0.625rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 700;
+}
+
+.l-input__search p {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    border: 1px solid var(--border-solid);
+    padding: 6px;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.l-fav__heart {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid var(--border-solid);
+    border-radius: 20px;
+    width: 85px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.l-fav__heart p {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+}
+
+.l-fav__heart:hover {
+    background-color: var(--favorites);
+}
+
+.l-dropdown__type {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.l-dropdown__type p {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    border: 1px solid varvar(--border-solid);
+    padding: 6px;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.l-dropdown__region {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.l-dropdown__region p {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    border: 1px solid varvar(--border-solid);
+    padding: 6px;
+    border-radius: 5px 0px 0px 5px;
+}
+
+
+/*CARDS*/
+
+.c-card__pokemon {
+    width: 11.875rem !important;
+    height: 17rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 0.0625rem solid var(--border-solid);
+    box-shadow: 0px 0px 10px var(--box-shadow);
+    border-radius: 0.625rem;
+}
+
+.c-card__image {
+    width: 10rem;
+}
+
+.c-card__image img{
+    width: 100%;
+    
+}
+
+.c-card__info {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.c-card__info p {
+    font-size: 1.3125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+}
+
+.c-card__type {
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.type {
+    font-size: 0.75rem;
+    line-height: 1rem !important;
+    font-weight: 700;
+    border: 1px solid var(--border-solid);
+    border-radius: 1rem;
+    width: 40%;
+}
+
+.type img{
+    width: 24px;
+    border-radius: 1rem;
+    margin-right: 5px;
 }

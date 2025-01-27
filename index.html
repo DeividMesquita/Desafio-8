@@ -29,7 +29,6 @@
     <title>Desafio 8</title>
   </head>
   <body>
-
     <header class="l-navbar">
       <div class="c-navbar container-fluid d-flex justify-content-center">
         <figure class="m-0">
@@ -38,46 +37,45 @@
       </div>
     </header>
 
-
     <main>
       <div class="container-xxl">
-        <div class="row justify-content-center mt-5">
-          <div class="l-input__search col-2">
+        <div class="row justify-content-center align-items-center mt-5">
+          <div class="l-input__search col-3">
             <p class="m-0">SEARCH</p>
-            <input type="text">
+            <input type="text" placeholder="By name or number..." />
           </div>
 
           <div class="l-fav__heart col-1">
-            <i class="fa-regular fa-heart" style="color: #ff0000;"></i>
-            <p>faves</p>
+            <i class="fa-regular fa-heart" style="color: #ff0000"></i>
+            <p class="m-0">faves</p>
           </div>
 
-          <div class="l-dropdown__type col-3">
+          <div class="l-dropdown__type col-2">
             <p class="m-0">Type</p>
             <select class="form-select" aria-label="Default select example">
-                <option selected>All</option>
-                <option value="1">Bug</option>
-                <option value="2">Dark</option>
-                <option value="3">Dragon</option>
-                <option value="4">Electric</option>
-                <option value="5">Fairy</option>
-                <option value="6">Fighting</option>
-                <option value="7">Fire</option>
-                <option value="8">Flying</option>
-                <option value="9">Ghost</option>
-                <option value="10">Grass</option>
-                <option value="11">Ground</option>
-                <option value="12">Ice</option>
-                <option value="13">Normal</option>
-                <option value="14">Poison</option>
-                <option value="15">Psychic</option>
-                <option value="16">Rock</option>
-                <option value="17">Steel</option>
-                <option value="18">Water</option>
+              <option selected>All</option>
+              <option value="1">Bug</option>
+              <option value="2">Dark</option>
+              <option value="3">Dragon</option>
+              <option value="4">Electric</option>
+              <option value="5">Fairy</option>
+              <option value="6">Fighting</option>
+              <option value="7">Fire</option>
+              <option value="8">Flying</option>
+              <option value="9">Ghost</option>
+              <option value="10">Grass</option>
+              <option value="11">Ground</option>
+              <option value="12">Ice</option>
+              <option value="13">Normal</option>
+              <option value="14">Poison</option>
+              <option value="15">Psychic</option>
+              <option value="16">Rock</option>
+              <option value="17">Steel</option>
+              <option value="18">Water</option>
             </select>
           </div>
 
-          <div class="l-dropdown__region col-3">
+          <div class="l-dropdown__region col-2">
             <p class="m-0">Region</p>
             <select class="form-select" aria-label="Default select example">
               <option selected>All</option>
@@ -90,10 +88,16 @@
               <option value="7">Alola</option>
               <option value="8">Galar</option>
               <option value="9">Paldea</option>
-          </select>
+            </select>
           </div>
         </div>
       </div>
+
+      <section class="c-cards container-xxl mt-5">
+        <div class="row justify-content-center align-items-center gap-3" id="pokemon-cards">
+          
+        </div>
+      </section>
     </main>
 
     <script src="assets/js/main.js"></script>
