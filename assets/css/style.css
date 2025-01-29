@@ -40,8 +40,8 @@
     --default: #FFFFFF;
     --border-solid: #C9CCC9;
     --unnamed-color-444444: #444444;
-    --box-shadow: #2C2C2C;
-    --unnamed-color-f5c632: #F5C632;
+    --box-shadow: #00000029;
+    --header: #F5C632;
     --favorites: #FC4242;
 }
 
@@ -129,7 +129,7 @@
     font-size: 12px;
     line-height: 16px;
     font-weight: 700;
-    border: 1px solid varvar(--border-solid);
+    border: 1px solid var(--border-solid);
     padding: 6px;
     border-radius: 5px 0px 0px 5px;
 }
@@ -144,13 +144,16 @@
     font-size: 12px;
     line-height: 16px;
     font-weight: 700;
-    border: 1px solid varvar(--border-solid);
+    border: 1px solid var(--border-solid);
     padding: 6px;
     border-radius: 5px 0px 0px 5px;
 }
 
 
 /*CARDS*/
+.c-cards__board {
+    gap: 20px;
+}
 
 .c-card__pokemon {
     width: 11.875rem !important;
@@ -158,9 +161,15 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    border: 0.0625rem solid var(--border-solid);
+    align-items: center;
+    border: 1px solid transparent;
     box-shadow: 0px 0px 10px var(--box-shadow);
     border-radius: 0.625rem;
+}
+
+.c-card__pokemon:hover {
+    border: 1px solid var(--type-color);
+    transition: 0.6s;
 }
 
 .c-card__image {
@@ -187,20 +196,36 @@
 .c-card__type {
     display: flex;
     justify-content: space-around;
-    
+    gap: 0.5rem;
 }
 
 .type {
-    font-size: 0.75rem;
-    line-height: 1rem !important;
-    font-weight: 700;
-    border: 1px solid var(--border-solid);
+    display: flex;
+    align-items: center;
     border-radius: 1rem;
-    width: 40%;
+    box-shadow: 0px 0px 10px var(--box-shadow);
 }
 
 .type img{
     width: 24px;
     border-radius: 1rem;
-    margin-right: 5px;
+}
+
+.type p {
+    font-size: 0.75rem;
+    line-height: 1rem !important;
+    font-weight: 700;
+    margin: 0;
+    margin: 0.25rem 0.5rem 0.25rem 0.25rem;
+    color: var(--type-color);
+}
+
+.type:hover {
+    background-color: var(--type-color-hover);
+    transition: 0.5s;
+}
+
+.type:hover p {
+    color: var(--default);
+    transition: 0.5s;
 }
