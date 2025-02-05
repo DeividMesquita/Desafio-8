@@ -32,27 +32,35 @@
     <header class="l-navbar">
       <div class="c-navbar container-fluid d-flex justify-content-center">
         <figure class="m-0">
-          <img src="assets/img/pokedex-logo.png" alt="pokedex-logo" />
+          <a href="#"><img src="assets/img/pokedex-logo.png" alt="pokedex-logo" /></a>
         </figure>
       </div>
     </header>
 
     <main>
       <div class="container-xxl">
-        <div class="row justify-content-center align-items-center mt-5">
-          <div class="l-input__search col-3">
+        <div class="row justify-content-center align-items-center mt-5 gy-3">
+          <div
+            class="l-input__search col-xxl-3 col-xl-3 col-md-3 col-sm-6 col-8"
+          >
             <p class="m-0">SEARCH</p>
             <input type="text" placeholder="By name or number..." id="search" />
           </div>
 
-          <div class="l-fav__heart col-1">
+          <div class="l-fav__heart col-xxl-1 col-xl-1 col-md-1 col-sm-2 col-3">
             <i class="fa-regular fa-heart" style="color: #ff0000"></i>
             <p class="m-0">FAVES</p>
           </div>
 
-          <div class="l-dropdown__type col-2">
+          <div
+            class="l-dropdown__type col-xxl-2 col-xl-2 col-md-2 col-sm-5 col-5"
+          >
             <p class="m-0">TYPE</p>
-            <select class="form-select" aria-label="Default select example" id="typeSearch">
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              id="typeSearch"
+            >
               <option value="all" selected>All</option>
               <option value="bug">Bug</option>
               <option value="dark">Dark</option>
@@ -74,13 +82,18 @@
               <option value="water">Water</option>
             </select>
           </div>
-          
 
-          <div class="l-dropdown__region col-2">
+          <div
+            class="l-dropdown__region col-xxl-2 col-xl-2 col-md-2 col-sm-5 col-5"
+          >
             <p class="m-0">REGION</p>
-            <select class="form-select" aria-label="Default select example" id="regionSearch">
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              id="regionSearch"
+            >
               <option selected>All</option>
-              <option value="kant">Kanto</option>
+              <option value="kanto">Kanto</option>
               <option value="johto">Johto</option>
               <option value="hoenn">Hoenn</option>
               <option value="sinnoh">Sinnoh</option>
@@ -95,11 +108,38 @@
       </div>
 
       <section class="c-cards container-xxl mt-5 mb-5">
-        <div class="c-cards__board d-flex flex-wrap justify-content-center" id="pokemon-cards">
+        <div
+          class="c-cards__board d-flex flex-wrap justify-content-center"
+          id="pokemon-cards"
+        ></div>
+
+        <div class="c-modal" id="pokemonModal" tabindex="-1" aria-hidden="true">
           
         </div>
       </section>
+
+      <div class="c-pagination container-xxl d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+          <button class="l-pagination__btn" id="continueButton">
+            CONTINUE
+          </button>
+        </nav>
+      </div>
+
+      
     </main>
+
+    <div class="backTop">
+      <a href="#top">
+        <i class="fas fa-arrow-up" style="color: #ffffff;"></i>
+      </a>
+    </div>
+
+    <footer class="l-footer container-xxl mt-5">
+      <div class="c-footer__content d-flex justify-content-center">
+        <p class="m-0">2021 - Desafio 8</p>
+      </div>
+    </footer>
 
     <script src="assets/js/main.js"></script>
   </body>
