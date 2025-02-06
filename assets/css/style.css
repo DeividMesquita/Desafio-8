@@ -109,16 +109,30 @@
     width: 5.3125rem;
     height: 1.875rem;
     cursor: pointer;
+    transition: .2s;
 }
 
 .l-fav__heart p {
     font-size: 0.75rem;
     line-height: 1rem;
     font-weight: 700;
+    transition: .2s;
 }
 
 .l-fav__heart:hover {
     background-color: var(--favorites);
+}
+
+.l-fav__heart:hover p {
+    color: var(--default);
+}
+
+.l-fav__heart:hover .fa-solid {
+    color: #ffffff;
+}
+
+.fa-heart {
+    color: #FC4242;
 }
 
 .l-dropdown__type {
@@ -174,6 +188,18 @@
     border: 1px solid var(--type-color);
     transition: 0.6s;
 }
+
+.l-card__favorite {
+    position: relative;
+    cursor: pointer;
+}
+
+.l-card__favorite i {
+    position: absolute;
+    top: 0;
+    left: 65px;
+}
+
 
 .c-card__image {
     width: 10rem;
@@ -457,7 +483,7 @@
     font-weight: 400;
 }
 
-.backTop a{
+.backTop a {
     position: fixed;
     bottom: 1.25rem;
     right: 1.25rem;
@@ -471,6 +497,25 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.backTop a {
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-0.5rem);
+    }
+}
+
+.backTop a:hover {
+    animation: none;
+    transform: translateY(-0.5rem);
 }
 
 @media (max-width: 1243px) {
@@ -485,7 +530,7 @@
     }
 }
 
-@media (max-width: 870px){
+@media (max-width: 870px) {
     .c-modal__box {
         width: 97%;
     }
@@ -522,6 +567,30 @@
 
 @media (max-width: 460px) {
 
+    .c-card__pokemon {
+        width: 10.3125rem !important;
+    }
+
+    .l-card__favorite i {
+        position: absolute;
+        top: -0.3125rem;
+        left: 3.4375rem;
+    }
+
+    .c-card__image {
+        width: 8.4375rem;
+    }
+
+    .c-card__info p:first-child {
+        font-size: 1.125rem;
+        line-height: 1.5rem;
+    }
+
+    .c-card__info p {
+        font-size: 1.125rem;
+        line-height: 1.5rem;
+    }
+
     .c-modal__box {
         width: 80%;
     }
@@ -535,4 +604,3 @@
     }
 
 }
-

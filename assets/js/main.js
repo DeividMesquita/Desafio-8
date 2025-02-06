@@ -84,20 +84,23 @@ function renderPokemonCards(pokemons) {
   pokemons.forEach(pokemon => {
     const pokemonCard = `
       <div class="c-card__pokemon" style="--type-color:${typeColors[pokemon.types[0]]};">
-        <div class="c-card__image">
-          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" alt="${pokemon.name}" />
-        </div>
-        <div class="c-card__info">
-          <p class="m-0">#${pokemon.id.toString().padStart(3, "0")}</p>
-          <p class="m-0">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
-        </div>
-        <div class="c-card__type">
-          ${pokemon.types.map((type) => `
-            <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
-              <img src="assets/img/${type} type icon.png">
-              <p>${type}</p>
-            </span>`).join(" ")}
-        </div>
+      <div class="l-card__favorite">
+        <i class="fa-regular fa-heart" onmouseover="this.classList.add('fa-solid');" onmouseout="this.classList.remove('fa-solid');" onclick="this.classList.toggle('fa-solid');"></i>
+      </div>
+      <div class="c-card__image">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" alt="${pokemon.name}" />
+      </div>
+      <div class="c-card__info">
+        <p class="m-0">#${pokemon.id.toString().padStart(3, "0")}</p>
+        <p class="m-0">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
+      </div>
+      <div class="c-card__type">
+        ${pokemon.types.map((type) => `
+        <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
+          <img src="assets/img/${type} type icon.png">
+          <p>${type}</p>
+        </span>`).join(" ")}
+      </div>
       </div>`;
     pokemonContainer.innerHTML += pokemonCard;
   });
@@ -235,10 +238,34 @@ regionSelect.addEventListener("change", (event) => {
   const selectValue = event.target.value.toLowerCase();
 
 
-  const filteredPokemons = selectValue === "all" ? allPokemons : allPokemons.filter(pokemon => {
-    console.log(`Pokémon: ${pokemon.name}, Região: ${pokemon.region}`);
-    return pokemon.region === selectValue;
-  });
+  let filteredPokemons = allPokemons;
+  if (selectValue !== "all") {
+    filteredPokemons = allPokemons.filter(pokemon => pokemon.region === selectValue);
+  }
+  if (selectValue === "kanto") {
+    filteredPokemons = allPokemons.filter(pokemon => pokemon.id <= 151);
+  }
+  if (selectValue === "johto") {
+    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 151 && pokemon.id <= 251);
+  }
+  if (selectValue === "hoenn") {
+    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 251 && pokemon.id <= 386);
+  }
+  if (selectValue === "sinnoh") {
+    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 386 && pokemon.id <= 493);
+  }
+  if (selectValue === "unova") {
+    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 493 && pokemon.id <= 649);
+  }
+  if (selectValue === "kalos") {
+    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 649 && pokemon.id <= 721);
+  }
+  if (selectValue === "alola") {
+    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 721 && pokemon.id <= 809);
+  }
+  if (selectValue === "galar") {
+    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 809 && pokemon.id <= 898);
+  }
 
   renderPokemonCards(filteredPokemons);
 });
