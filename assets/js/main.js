@@ -97,7 +97,7 @@ function renderPokemonCards(pokemons) {
       <div class="c-card__type">
         ${pokemon.types.map((type) => `
         <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
-          <img src="assets/img/${type}typeicon.png">
+          <img src="Desafio-8/assets/img/${type}type icon.png">
           <p>${type}</p>
         </span>`).join(" ")}
       </div>
