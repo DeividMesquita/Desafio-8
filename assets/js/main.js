@@ -1,6 +1,7 @@
 const pokemonContainer = document.getElementById("pokemon-cards");
 const modal = document.getElementById("pokemonModal");
 const search = document.getElementById("search");
+const fav = document.getElementById("pokeFavorites");
 const typeSelect = document.getElementById("typeSearch");
 const regionSelect = document.getElementById("regionSearch");
 const continueButton = document.getElementById("continueButton");
@@ -97,7 +98,7 @@ function renderPokemonCards(pokemons) {
       <div class="c-card__type">
         ${pokemon.types.map((type) => `
         <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
-          <img src="assets/img/${type}typeicon.png">
+          <img src="assets/img/${type} type icon.png">
           <p>${type}</p>
         </span>`).join(" ")}
       </div>
@@ -217,54 +218,64 @@ search.addEventListener("input", (event) => {
 
 // Evento de filtro por tipo
 typeSelect.addEventListener("change", (event) => {
-
   const selectValue = event.target.value.toLowerCase();
 
-  document.querySelectorAll(".c-card__pokemon").forEach((pokemon) => {
+  if (selectValue === "all") {
+    renderPokemonCards(allPokemons.slice(0, 18));
+    return;
+  }
 
+  document.querySelectorAll(".c-card__pokemon").forEach((pokemon) => {
     const pokemonTypes = Array.from(pokemon.querySelectorAll(".type p")).map(type => type.textContent.toLowerCase());
 
-    if (pokemonTypes.includes(selectValue) || selectValue === "all") {
+    if (pokemonTypes.includes(selectValue)) {
       pokemon.style.display = "";
     } else {
       pokemon.style.display = "none";
     }
   });
+
+  const visiblePokemons = document.querySelectorAll(".c-card__pokemon:not([style*='display: none'])");
+  if (visiblePokemons.length === 0) {
+    pokemonContainer.innerHTML = "<p>Pokémon com esse tipo não encontrado.</p>";
+  }
 });
 
 
-// Evento de filtro por região
-regionSelect.addEventListener("change", (event) => {
-  const selectValue = event.target.value.toLowerCase();
 
+// Evento de filtro por região
+regionSelect.addEventListener("change", async (event) => {
+  const selectValue = event.target.value.toLowerCase();
 
   let filteredPokemons = allPokemons;
   if (selectValue !== "all") {
     filteredPokemons = allPokemons.filter(pokemon => pokemon.region === selectValue);
   }
-  if (selectValue === "kanto") {
-    filteredPokemons = allPokemons.filter(pokemon => pokemon.id <= 151);
-  }
-  if (selectValue === "johto") {
-    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 151 && pokemon.id <= 251);
-  }
-  if (selectValue === "hoenn") {
-    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 251 && pokemon.id <= 386);
-  }
-  if (selectValue === "sinnoh") {
-    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 386 && pokemon.id <= 493);
-  }
-  if (selectValue === "unova") {
-    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 493 && pokemon.id <= 649);
-  }
-  if (selectValue === "kalos") {
-    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 649 && pokemon.id <= 721);
-  }
-  if (selectValue === "alola") {
-    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 721 && pokemon.id <= 809);
-  }
-  if (selectValue === "galar") {
-    filteredPokemons = allPokemons.filter(pokemon => pokemon.id > 809 && pokemon.id <= 898);
+
+  if (filteredPokemons.length === 0) {
+    let regionPokemons = [];
+    if (selectValue === "kanto") {
+      regionPokemons = Array.from({ length: 151 }, (_, index) => index + 1);
+    } else if (selectValue === "johto") {
+      regionPokemons = Array.from({ length: 100 }, (_, index) => index + 152);
+    } else if (selectValue === "hoenn") {
+      regionPokemons = Array.from({ length: 135 }, (_, index) => index + 252);
+    } else if (selectValue === "sinnoh") {
+      regionPokemons = Array.from({ length: 107 }, (_, index) => index + 387);
+    } else if (selectValue === "unova") {
+      regionPokemons = Array.from({ length: 156 }, (_, index) => index + 495);
+    } else if (selectValue === "kalos") {
+      regionPokemons = Array.from({ length: 72 }, (_, index) => index + 650);
+    } else if (selectValue === "alola") {
+      regionPokemons = Array.from({ length: 88 }, (_, index) => index + 722);
+    } else if (selectValue === "galar") {
+      regionPokemons = Array.from({ length: 97 }, (_, index) => index + 810);
+      } else if (selectValue === "paldea") {
+        regionPokemons = Array.from({ length: 120 }, (_, index) => index + 906);
+    }
+
+    await Promise.all(regionPokemons.map((pokemonId, index) => fetchPokemonData(pokemonId, index)));
+    filteredPokemons = allPokemons.filter(pokemon => pokemon.region === selectValue);
   }
 
   renderPokemonCards(filteredPokemons);
