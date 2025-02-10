@@ -6,6 +6,7 @@ const typeSelect = document.getElementById("typeSearch");
 const regionSelect = document.getElementById("regionSearch");
 const continueButton = document.getElementById("continueButton");
 const baseURL = "https://pokeapi.co/api/v2/pokemon/";
+const favoritePokemons = new Set(JSON.parse(localStorage.getItem("favorites")) || []);
 const regionCache = {}; // Cache para evitar requisições repetidas
 const allPokemons = [];
 
@@ -31,21 +32,32 @@ const typeColorsHovers = {
 
 // Função para buscar a região de um Pokémon
 async function fetchRegion(pokemonId) {
-  if (regionCache[pokemonId]) return regionCache[pokemonId];
+  // Verifica se a região do Pokémon já está no cache
+if (regionCache[pokemonId]) return regionCache[pokemonId];
 
-  try {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`);
-    const data = await response.json();
-    const generationResponse = await fetch(data.generation.url);
-    const generationData = await generationResponse.json();
-    const region = generationData.main_region.name.toLowerCase();
+try {
+  // Faz uma requisição para obter os dados da espécie do Pokémon
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`);
+  // Converte a resposta para JSON
+  const data = await response.json();
+  
+  // Faz uma requisição para obter os dados da geração do Pokémon
+  const generationResponse = await fetch(data.generation.url);
+  // Converte a resposta da geração para JSON
+  const generationData = await generationResponse.json();
+  
+  // Obtém o nome da região principal da geração e converte para minúsculas
+  const region = generationData.main_region.name.toLowerCase();
 
-    regionCache[pokemonId] = region;
-    return region;
-  } catch (error) {
-    console.error("Erro ao buscar região:", error);
-    return "unknown";
-  }
+  // Armazena a região no cache para futuras consultas
+  regionCache[pokemonId] = region;
+  // Retorna a região
+  return region;
+} catch (error) {
+  // Em caso de erro, exibe uma mensagem no console e retorna "unknown"
+  console.error("Erro ao buscar região:", error);
+  return "unknown";
+}
 }
 
 // Função para buscar os dados de um Pokémon
@@ -83,11 +95,13 @@ async function fetchPokemonData(pokemonId, index) {
 function renderPokemonCards(pokemons) {
   pokemonContainer.innerHTML = ""; // Limpa o container
   pokemons.forEach(pokemon => {
+    const isFavorite = favoritePokemons.has(pokemon.id);
     const pokemonCard = `
       <div class="c-card__pokemon" style="--type-color:${typeColors[pokemon.types[0]]};">
       <div class="l-card__favorite">
-        <i class="fa-regular fa-heart" onmouseover="this.classList.add('fa-solid');" onmouseout="this.classList.remove('fa-solid');" onclick="this.classList.toggle('fa-solid');"></i>
+        <i class="fa-${isFavorite ? "solid" : "regular"} fa-heart" onclick="toggleFavorite(${pokemon.id}, this)"></i>
       </div>
+      <div class="c-card__content">
       <div class="c-card__image">
         <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" alt="${pokemon.name}" />
       </div>
@@ -101,6 +115,7 @@ function renderPokemonCards(pokemons) {
           <img src="assets/img/${type} type icon.png">
           <p>${type}</p>
         </span>`).join(" ")}
+      </div>
       </div>
       </div>`;
     pokemonContainer.innerHTML += pokemonCard;
@@ -123,6 +138,7 @@ function modalPokemon(pokemon) {
 
   console.log("Habilidades formatadas:", abilities.join(", ")); // Verifica o resultado final
 
+  const isFavorite = favoritePokemons.has(pokemon.id);
   const modalContent = `
     <div class="c-modal__box">
       <span class="l-modal__close" onclick="closeModal()"><i class="fa-solid fa-x fa-sm" style="color: #ffffff;"></i></i></span>
@@ -136,6 +152,7 @@ function modalPokemon(pokemon) {
         <div class="l-modal__tag">
           <p class="m-0" id="pokemonNumber" style="--type-color:${typeColors[pokemon.types[0]]};">#${pokemon.id.toString().padStart(3, "0")}</p>
           <p class="m-0" id="pokemonName">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
+          <i class="fav-modal fa-${isFavorite ? "solid" : "regular"} fa-heart" onclick="toggleFavorite(${pokemon.id}, this); updateCardFavorite(${pokemon.id}, this)"></i>
         </div>
           <div class="l-modal__types">
           <p class="m-0">Type</p>
@@ -186,7 +203,7 @@ function closeModal() {
 
 // Evento para abrir o modal ao clicar no card
 pokemonContainer.addEventListener("click", (event) => {
-  const card = event.target.closest(".c-card__pokemon");
+  const card = event.target.closest(".c-card__content");
   if (card) {
     const pokemonId = parseInt(card.querySelector(".c-card__info p").textContent.replace("#", ""));
     const pokemon = allPokemons.find(p => p.id === pokemonId);
@@ -238,6 +255,58 @@ typeSelect.addEventListener("change", (event) => {
   const visiblePokemons = document.querySelectorAll(".c-card__pokemon:not([style*='display: none'])");
   if (visiblePokemons.length === 0) {
     pokemonContainer.innerHTML = "<p>Pokémon com esse tipo não encontrado.</p>";
+  }
+});
+
+function toggleFavorite(pokemonId, element) {
+  if (favoritePokemons.has(pokemonId)) {
+    favoritePokemons.delete(pokemonId);
+    element.classList.replace("fa-solid", "fa-regular");
+  } else {
+    favoritePokemons.add(pokemonId);
+    element.classList.replace("fa-regular", "fa-solid");
+  }
+  localStorage.setItem("favorites", JSON.stringify([...favoritePokemons]));
+  updateFavoriteIcons(pokemonId, element);
+}
+
+function updateFavoriteIcons(pokemonId, element) {
+  const card = document.querySelector(`.c-card__pokemon .fa-heart[onclick="toggleFavorite(${pokemonId}, this)"]`);
+  const modalFavIcon = document.querySelector(`.fav-modal[onclick="toggleFavorite(${pokemonId}, this); updateFavoriteIcons(${pokemonId}, this)"]`);
+
+  if (card) {
+    if (favoritePokemons.has(pokemonId)) {
+      card.classList.replace("fa-regular", "fa-solid");
+    } else {
+      card.classList.replace("fa-solid", "fa-regular");
+    }
+  }
+
+  if (modalFavIcon) {
+    if (favoritePokemons.has(pokemonId)) {
+      modalFavIcon.classList.replace("fa-regular", "fa-solid");
+    } else {
+      modalFavIcon.classList.replace("fa-solid", "fa-regular");
+    }
+  }
+}
+
+// Evento para mostrar apenas os Pokémon favoritos
+fav.addEventListener("click", async () => {
+  const favoritePokemonList = [];
+  for (const pokemonId of favoritePokemons) {
+    const pokemon = allPokemons.find(p => p.id === pokemonId);
+    if (pokemon) {
+      favoritePokemonList.push(pokemon);
+    } else {
+      await fetchPokemonData(pokemonId, allPokemons.length);
+      favoritePokemonList.push(allPokemons.find(p => p.id === pokemonId));
+    }
+  }
+  if (favoritePokemonList.length === 0) {
+    pokemonContainer.innerHTML = "<p>Nenhum Pokémon favorito encontrado.</p>";
+  } else {
+    renderPokemonCards(favoritePokemonList);
   }
 });
 

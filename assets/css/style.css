@@ -196,8 +196,14 @@
 
 .l-card__favorite i {
     position: absolute;
-    top: 0;
-    left: 65px;
+    top: -10px;
+    left: 4.0625rem;
+}
+
+.c-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 
@@ -305,7 +311,8 @@
 .c-modal__box {
     position: relative;
     background-color: var(--default);
-    margin: 5% auto;
+    top: 20%;
+    margin: 0 auto;
     padding: 1.25rem;
     border: 1px solid var(--border-solid);
     width: 63%;
@@ -358,10 +365,19 @@
 }
 
 .l-modal__tag {
+    position: relative;
     display: flex;
     gap: 0.5rem;
     margin-bottom: 1rem;
     flex-wrap: wrap;
+}
+
+.fav-modal {
+    position: absolute;
+    top: 10px;
+    left: -60px;
+    font-size: 30px;
+    line-height: 24px;
 }
 
 .l-modal__tag p:first-child {
@@ -573,7 +589,7 @@
 
     .l-card__favorite i {
         position: absolute;
-        top: -0.3125rem;
+        top: -15px;
         left: 3.4375rem;
     }
 
