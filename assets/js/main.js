@@ -115,11 +115,19 @@ function renderPokemonCards(pokemons) {
       <p class="m-0">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
       </div>
       <div class="c-card__type">
+<<<<<<< HEAD
       ${pokemon.types.map((type) => `
       <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
       <img src="https://raw.githubusercontent.com/DeividsonMesquita/Desafio-8/main/assets/img/${type}-type-icon.png">
       <p>${type}</p>
       </span>`).join(" ")}
+=======
+        ${pokemon.types.map((type) => `
+        <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
+          <img src="https://raw.githubusercontent.com/DeividsonMesquita/Desafio-8/main/assets/img/${type}%20type%20icon.png">
+          <p>${type}</p>
+        </span>`).join(" ")}
+>>>>>>> 58791f563a956d3c3a47166dfea354177fb55558
       </div>
       </div>
       </div>`;
@@ -163,7 +171,11 @@ function modalPokemon(pokemon) {
           <div class="l-modal__type--container">
           ${pokemon.types.map((type) => `
             <span class="l-modal__type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
+<<<<<<< HEAD
               <img src="https://raw.githubusercontent.com/DeividsonMesquita/Desafio-8/main/assets/img/${type}-type-icon.png">
+=======
+              <img src="https://raw.githubusercontent.com/DeividsonMesquita/Desafio-8/main/assets/img/${type}%20type%20icon.png">
+>>>>>>> 58791f563a956d3c3a47166dfea354177fb55558
               <p>${type}</p>
             </span>`).join(" ")}
             </div>
