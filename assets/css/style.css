@@ -59,20 +59,11 @@
 .l-navbar {
     background-color: var(--header);
     box-shadow: 0px 0px 10px var(--box-shadow);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 10;
 }
 
 .c-navbar {
     height: 60px;
     align-items: center;
-}
-
-.c-menu {
-    margin-top: 6.875rem !important;
 }
 
 .form-select {

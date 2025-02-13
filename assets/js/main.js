@@ -1,3 +1,4 @@
+const home = document.getElementById("home");
 const pokemonContainer = document.getElementById("pokemon-cards");
 const modal = document.getElementById("pokemonModal");
 const search = document.getElementById("search");
@@ -226,6 +227,15 @@ function setupCardClickEvent() {
 // Chama a função para configurar o evento de clique nos cards
 setupCardClickEvent();
 
+function returnToHome() {
+  home.addEventListener("click", () => {
+    renderPokemonCards(allPokemons.slice(0, 18));
+    document.getElementById("continueButton").classList.remove("d-none");
+  });
+}
+
+returnToHome();
+
 // Função de busca por nome ou ID
 function setupSearchEvent() {
   // Adiciona um evento de input no campo de busca
@@ -390,7 +400,10 @@ regionSelect.addEventListener("change", async (event) => {
 
   if (filteredPokemons.length === 0) {
     let regionPokemons = [];
-    if (selectValue === "kanto") {
+    if (selectValue === "all") {
+      renderPokemonCards(allPokemons.slice(0, 18));
+      document.getElementById("continueButton").classList.remove("d-none");
+    } else if (selectValue === "kanto") {
       regionPokemons = Array.from({ length: 151 }, (_, index) => index + 1);
       document.getElementById("continueButton").classList.add("d-none");
     } else if (selectValue === "johto") {
@@ -419,7 +432,8 @@ regionSelect.addEventListener("change", async (event) => {
       document.getElementById("continueButton").classList.add("d-none");
     }
 
-    await Promise.all(regionPokemons.map((pokemonId, index) => fetchPokemonData(pokemonId, index)));
+    pokemonList.push(...regionPokemons);
+    await Promise.all(regionPokemons.map((pokemonId, index) => fetchPokemonData(pokemonId, allPokemons.length + index)));
     filteredPokemons = allPokemons.filter(pokemon => pokemon.region === selectValue);
   }
 
