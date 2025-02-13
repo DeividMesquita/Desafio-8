@@ -13,56 +13,59 @@ const allPokemons = [];
 // Lista de IDs dos Pokémon que você quer exibir
 const pokemonList = Array.from({ length: 18 }, (_, index) => index + 1);
 
-// Cores dos tipos
-const typeColors = {
-  grass: "#3FA129", fire: "#FF8000", water: "#2980EF", bug: "#91A119",
-  normal: "#9FA19F", poison: "#9141CB", electric: "#F5C632", ground: "#915121",
-  fairy: "#EF70EF", fighting: "#E62829", psychic: "#EF4179", rock: "#B0AA82",
-  ghost: "#704170", ice: "#3FD8FF", dragon: "#5060E1", dark: "#4F3F3D",
-  steel: "#60A1B8", flying: "#81B9EF"
-};
+function getTypeColors() {
+  return {
+    grass: "#3FA129", fire: "#FF8000", water: "#2980EF", bug: "#91A119",
+    normal: "#9FA19F", poison: "#9141CB", electric: "#F5C632", ground: "#915121",
+    fairy: "#EF70EF", fighting: "#E62829", psychic: "#EF4179", rock: "#B0AA82",
+    ghost: "#704170", ice: "#3FD8FF", dragon: "#5060E1", dark: "#4F3F3D",
+    steel: "#60A1B8", flying: "#81B9EF"
+  };
+}
 
-const typeColorsHovers = {
-  grass: "#82C274", fire: "#FFAC59", water: "#74ACF5", bug: "#B8C26A",
-  normal: "#C1C2C1", poison: "#B884DD", electric: "#FCD659", ground: "#B88E6F",
-  fairy: "#F5A2F5", fighting: "#EF7374", psychic: "#F584A8", rock: "#CBC7AD",
-  ghost: "#A284A2", ice: "#81DFF7", dragon: "#8D98EC", dark: "#998B8C",
-  steel: "#98C2D1", flying: "#ADD2F5"
-};
+function getTypeColorsHovers() {
+  return {
+    grass: "#82C274", fire: "#FFAC59", water: "#74ACF5", bug: "#B8C26A",
+    normal: "#C1C2C1", poison: "#B884DD", electric: "#FCD659", ground: "#B88E6F",
+    fairy: "#F5A2F5", fighting: "#EF7374", psychic: "#F584A8", rock: "#CBC7AD",
+    ghost: "#A284A2", ice: "#81DFF7", dragon: "#8D98EC", dark: "#998B8C",
+    steel: "#98C2D1", flying: "#ADD2F5"
+  };
+}
+
+const typeColors = getTypeColors();
+const typeColorsHovers = getTypeColorsHovers();
 
 // Função para buscar a região de um Pokémon
 async function fetchRegion(pokemonId) {
   // Verifica se a região do Pokémon já está no cache
-if (regionCache[pokemonId]) return regionCache[pokemonId];
+  if (regionCache[pokemonId]) return regionCache[pokemonId];
 
-try {
-  // Faz uma requisição para obter os dados da espécie do Pokémon
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`);
-  // Converte a resposta para JSON
-  const data = await response.json();
-  
-  // Faz uma requisição para obter os dados da geração do Pokémon
-  const generationResponse = await fetch(data.generation.url);
-  // Converte a resposta da geração para JSON
-  const generationData = await generationResponse.json();
-  
-  // Obtém o nome da região principal da geração e converte para minúsculas
-  const region = generationData.main_region.name.toLowerCase();
+  try {
+    // Faz uma requisição para obter os dados da espécie do Pokémon
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`);
+    const data = await response.json();
 
-  // Armazena a região no cache para futuras consultas
-  regionCache[pokemonId] = region;
-  // Retorna a região
-  return region;
-} catch (error) {
-  // Em caso de erro, exibe uma mensagem no console e retorna "unknown"
-  console.error("Erro ao buscar região:", error);
-  return "unknown";
-}
+    // Faz uma requisição para obter os dados da geração do Pokémon
+    const generationResponse = await fetch(data.generation.url);
+    const generationData = await generationResponse.json();
+
+    // Obtém o nome da região principal da geração e converte para minúsculas
+    const region = generationData.main_region.name.toLowerCase();
+
+    // Armazena a região no cache para futuras consultas
+    regionCache[pokemonId] = region;
+    return region;
+  } catch (error) {
+    console.error("Erro ao buscar região:", error);
+    return "unknown";
+  }
 }
 
 // Função para buscar os dados de um Pokémon
 async function fetchPokemonData(pokemonId, index) {
   try {
+    // Faz uma requisição para obter os dados do Pokémon
     const response = await fetch(`${baseURL}${pokemonId}`);
     const data = await response.json();
 
@@ -75,6 +78,7 @@ async function fetchPokemonData(pokemonId, index) {
       name: data.name,
       region: region,
       types: data.types.map(type => type.type.name),
+      // pega o peso e a altura do pokemon e divide por 10 para obter o valor em metros e kg
       height: (data.height / 10).toFixed(1) + " m",
       weight: (data.weight / 10).toFixed(1) + " kg",
       baseExperience: data.base_experience,
@@ -94,6 +98,7 @@ async function fetchPokemonData(pokemonId, index) {
 // Função para renderizar todos os cards de Pokémon
 function renderPokemonCards(pokemons) {
   pokemonContainer.innerHTML = ""; // Limpa o container
+  // Renderiza cada card de Pokémon
   pokemons.forEach(pokemon => {
     const isFavorite = favoritePokemons.has(pokemon.id);
     const pokemonCard = `
@@ -122,23 +127,22 @@ function renderPokemonCards(pokemons) {
   });
 }
 
+// função para logica do modal
 function modalPokemon(pokemon) {
   if (!pokemon) return;
 
+  //log para saber se esta puxando os pokemons e habilidades
   console.log("Objeto Pokémon recebido:", pokemon); // Verifica o objeto completo
   console.log("Abilities recebidas:", pokemon.abilities); // Verifica se a chave abilities está presente
 
   // Verifica se 'abilities' existem e são arrays
-  const abilities = Array.isArray(pokemon.abilities)
-    ? pokemon.abilities.map(a => {
-      console.log("Verificando habilidade:", a); // Verifica cada item
-      return a?.ability?.name || "Unknown";
-    })
-    : [];
+  const abilities = pokemon.abilities?.map(a => a.ability?.name || "Unknown") || [];
 
   console.log("Habilidades formatadas:", abilities.join(", ")); // Verifica o resultado final
 
+  // const para favoritar os pokemons e poder fazer o filtro
   const isFavorite = favoritePokemons.has(pokemon.id);
+  // const para o modal
   const modalContent = `
     <div class="c-modal__box">
       <span class="l-modal__close" onclick="closeModal()"><i class="fa-solid fa-x fa-sm" style="color: #ffffff;"></i></i></span>
@@ -188,7 +192,8 @@ function modalPokemon(pokemon) {
         </div>
       </div>
     </div>`;
-
+  
+  // const para o modal e mostrar na tela com o display block
   const modal = document.getElementById("pokemonModal");
   modal.innerHTML = modalContent;
   modal.style.display = "block";
@@ -201,79 +206,122 @@ function closeModal() {
   document.getElementById("pokemonModal").style.display = "none";
 }
 
-// Evento para abrir o modal ao clicar no card
-pokemonContainer.addEventListener("click", (event) => {
-  const card = event.target.closest(".c-card__content");
-  if (card) {
-    const pokemonId = parseInt(card.querySelector(".c-card__info p").textContent.replace("#", ""));
-    const pokemon = allPokemons.find(p => p.id === pokemonId);
-    if (pokemon) {
-      modalPokemon(pokemon);
-    }
-  }
-});
-
-// Evento de busca por nome ou ID
-search.addEventListener("input", (event) => {
-
-  const searchValue = event.target.value.toLowerCase();
-
-  document.querySelectorAll(".c-card__pokemon").forEach((pokemon) => {
-
-    const pokemonName = pokemon.querySelector(".c-card__info p:last-child").textContent.toLowerCase();
-
-    const pokemonId = pokemon.querySelector(".c-card__info p").textContent.replace("#", "").toLowerCase();
-
-    if (pokemonName.includes(searchValue) || pokemonId.includes(searchValue)) {
-      pokemon.style.display = "";
-    } else {
-      pokemon.style.display = "none";
+// Função para abrir o modal ao clicar no card
+function setupCardClickEvent() {
+  pokemonContainer.addEventListener("click", (event) => {
+    const card = event.target.closest(".c-card__content");
+    if (card) {
+      // Pega o ID do Pokémon clicado
+      const pokemonId = parseInt(card.querySelector(".c-card__info p").textContent.replace("#", ""));
+      // Pega o Pokémon com o ID clicado
+      const pokemon = allPokemons.find(p => p.id === pokemonId);
+      // Chama a função para abrir o modal com os dados do Pokémon
+      if (pokemon) {
+        modalPokemon(pokemon);
+      }
     }
   });
-});
+}
 
+// Chama a função para configurar o evento de clique nos cards
+setupCardClickEvent();
 
-// Evento de filtro por tipo
-typeSelect.addEventListener("change", (event) => {
-  const selectValue = event.target.value.toLowerCase();
+// Função de busca por nome ou ID
+function setupSearchEvent() {
+  // Adiciona um evento de input no campo de busca
+  search.addEventListener("input", (event) => {
+    const searchValue = event.target.value.toLowerCase();
 
-  if (selectValue === "all") {
-    renderPokemonCards(allPokemons.slice(0, 18));
-    return;
-  }
+    // Verifica se o valor da busca está presente no nome ou ID de cada Pokémon
+    document.querySelectorAll(".c-card__pokemon").forEach((pokemon) => {
+      const pokemonName = pokemon.querySelector(".c-card__info p:last-child").textContent.toLowerCase();
+      const pokemonId = pokemon.querySelector(".c-card__info p").textContent.replace("#", "").toLowerCase();
 
-  document.querySelectorAll(".c-card__pokemon").forEach((pokemon) => {
-    const pokemonTypes = Array.from(pokemon.querySelectorAll(".type p")).map(type => type.textContent.toLowerCase());
+      // Se o valor da busca estiver presente no nome ou ID, exibe o Pokémon
+      if (pokemonName.includes(searchValue) || pokemonId.includes(searchValue)) {
+        pokemon.style.display = "";
+      } else {
+        pokemon.style.display = "none";
+      }
+    });
 
-    if (pokemonTypes.includes(selectValue)) {
-      pokemon.style.display = "";
-    } else {
-      pokemon.style.display = "none";
+    const visiblePokemons = document.querySelectorAll(".c-card__pokemon:not([style*='display: none'])");
+    if (visiblePokemons.length === 0) {
+      pokemonContainer.innerHTML = `<div class="not-Found"><p>Pokémon com nome ou ID ${searchValue} não encontrado.</p><button class="l-pagination__btn" id="backButton">VOLTAR</button></div>`;
+      document.getElementById("backButton").addEventListener("click", () => {
+        renderPokemonCards(allPokemons.slice(0, 18));
+      });
+      document.getElementById("continueButton").classList.add("d-none");
     }
   });
+}
 
-  const visiblePokemons = document.querySelectorAll(".c-card__pokemon:not([style*='display: none'])");
-  if (visiblePokemons.length === 0) {
-    pokemonContainer.innerHTML = "<p>Pokémon com esse tipo não encontrado.</p>";
-  }
-});
+// Chama a função para configurar o evento de busca
+setupSearchEvent();
 
+
+// Função de filtro por tipo
+function setupTypeFilterEvent() {
+  // Adiciona um evento de change no select de tipos
+  typeSelect.addEventListener("change", (event) => {
+    const selectValue = event.target.value.toLowerCase();
+
+    if (selectValue === "all") {
+      renderPokemonCards(allPokemons.slice(0, 18));
+      return;
+    }
+
+    // Verifica se o valor do select está presente nos tipos de cada Pokémon
+    document.querySelectorAll(".c-card__pokemon").forEach((pokemon) => {
+      const pokemonTypes = Array.from(pokemon.querySelectorAll(".type p")).map(type => type.textContent.toLowerCase());
+
+      if (pokemonTypes.includes(selectValue)) {
+        pokemon.style.display = "";
+      } else {
+        pokemon.style.display = "none";
+      }
+    });
+
+    const visiblePokemons = document.querySelectorAll(".c-card__pokemon:not([style*='display: none'])");
+    console.log(visiblePokemons);
+    if (visiblePokemons.length === 0) {
+      pokemonContainer.innerHTML = `<div class="not-Found"><p>Pokémon do tipo ${selectValue} não encontrado.</p><button class="l-pagination__btn" id="backButton">VOLTAR</button></div>`;
+      document.getElementById("backButton").addEventListener("click", () => {
+        renderPokemonCards(allPokemons.slice(0, 18));
+      });
+      console.log("Nenhum Pokémon encontrado.");
+      document.getElementById("continueButton").classList.add("d-none");
+    }
+  });
+}
+
+// Chama a função para configurar o evento de filtro por tipo
+setupTypeFilterEvent();
+
+// Função para favoritar um Pokémon
 function toggleFavorite(pokemonId, element) {
+  // Verifica se o Pokémon já está favoritado
   if (favoritePokemons.has(pokemonId)) {
+    // Se sim, remove da lista de favoritos
     favoritePokemons.delete(pokemonId);
     element.classList.replace("fa-solid", "fa-regular");
   } else {
+    //  Se não, adiciona à lista de favoritos
     favoritePokemons.add(pokemonId);
     element.classList.replace("fa-regular", "fa-solid");
   }
+  // Atualiza a lista de favoritos no localStorage
   localStorage.setItem("favorites", JSON.stringify([...favoritePokemons]));
   updateFavoriteIcons(pokemonId, element);
 }
 
+// Função para atualizar o ícone de favorito
 function updateFavoriteIcons(pokemonId, element) {
+  // Verifica se o Pokémon é favorito e atualiza o ícone
   const card = document.querySelector(`.c-card__pokemon .fa-heart[onclick="toggleFavorite(${pokemonId}, this)"]`);
   const modalFavIcon = document.querySelector(`.fav-modal[onclick="toggleFavorite(${pokemonId}, this); updateFavoriteIcons(${pokemonId}, this)"]`);
 
+  // Verifica se o card e o modal estão presentes
   if (card) {
     if (favoritePokemons.has(pokemonId)) {
       card.classList.replace("fa-regular", "fa-solid");
@@ -282,6 +330,7 @@ function updateFavoriteIcons(pokemonId, element) {
     }
   }
 
+  // Verifica se o modal está presente
   if (modalFavIcon) {
     if (favoritePokemons.has(pokemonId)) {
       modalFavIcon.classList.replace("fa-regular", "fa-solid");
@@ -291,31 +340,45 @@ function updateFavoriteIcons(pokemonId, element) {
   }
 }
 
-// Evento para mostrar apenas os Pokémon favoritos
-fav.addEventListener("click", async () => {
-  const favoritePokemonList = [];
-  for (const pokemonId of favoritePokemons) {
-    const pokemon = allPokemons.find(p => p.id === pokemonId);
-    if (pokemon) {
-      favoritePokemonList.push(pokemon);
-    } else {
-      await fetchPokemonData(pokemonId, allPokemons.length);
-      favoritePokemonList.push(allPokemons.find(p => p.id === pokemonId));
+// Função para mostrar apenas os Pokémon favoritos
+function setupFavoriteFilterEvent() {
+  // Adiciona um evento de click no botão de favoritos
+  fav.addEventListener("click", async () => {
+    // Verifica se existem Pokémon favoritos em uma lista
+    const favoritePokemonList = [];
+    // Para cada ID de Pokémon favorito, busca o Pokémon correspondente
+    for (const pokemonId of favoritePokemons) {
+      const pokemon = allPokemons.find(p => p.id === pokemonId);
+      if (pokemon) {
+        favoritePokemonList.push(pokemon);
+      } else {
+        await fetchPokemonData(pokemonId, allPokemons.length);
+        favoritePokemonList.push(allPokemons.find(p => p.id === pokemonId));
+      }
     }
-  }
-  if (favoritePokemonList.length === 0) {
-    pokemonContainer.innerHTML = "<p>Nenhum Pokémon favorito encontrado.</p>";
-  } else {
-    renderPokemonCards(favoritePokemonList);
-  }
-});
+    if (favoritePokemonList.length === 0) {
+      pokemonContainer.innerHTML = '<div class="not-Found"><p>Nenhum Pokemon favoritado.</p><button class="l-pagination__btn" id="backButton">VOLTAR</button></div>';
+      document.getElementById("backButton").addEventListener("click", () => {
+        renderPokemonCards(allPokemons.slice(0, 18));
+      });
+    } else {
+      renderPokemonCards(favoritePokemonList);
+    }
+  });
+}
+
+// Chama a função para configurar o evento de filtro por favoritos
+setupFavoriteFilterEvent();
 
 
 
-// Evento de filtro por região
+// Função para filtrar os Pokémon por região
 regionSelect.addEventListener("change", async (event) => {
+
+  // evento para guardar o valor do select
   const selectValue = event.target.value.toLowerCase();
 
+  //  variavel para filtrar os pokemons
   let filteredPokemons = allPokemons;
   if (selectValue !== "all") {
     filteredPokemons = allPokemons.filter(pokemon => pokemon.region === selectValue);
@@ -325,22 +388,31 @@ regionSelect.addEventListener("change", async (event) => {
     let regionPokemons = [];
     if (selectValue === "kanto") {
       regionPokemons = Array.from({ length: 151 }, (_, index) => index + 1);
+      document.getElementById("continueButton").classList.add("d-none");
     } else if (selectValue === "johto") {
       regionPokemons = Array.from({ length: 100 }, (_, index) => index + 152);
+      document.getElementById("continueButton").classList.add("d-none");
     } else if (selectValue === "hoenn") {
       regionPokemons = Array.from({ length: 135 }, (_, index) => index + 252);
+      document.getElementById("continueButton").classList.add("d-none");
     } else if (selectValue === "sinnoh") {
       regionPokemons = Array.from({ length: 107 }, (_, index) => index + 387);
+      document.getElementById("continueButton").classList.add("d-none");
     } else if (selectValue === "unova") {
       regionPokemons = Array.from({ length: 156 }, (_, index) => index + 495);
+      document.getElementById("continueButton").classList.add("d-none");
     } else if (selectValue === "kalos") {
       regionPokemons = Array.from({ length: 72 }, (_, index) => index + 650);
+      document.getElementById("continueButton").classList.add("d-none");
     } else if (selectValue === "alola") {
       regionPokemons = Array.from({ length: 88 }, (_, index) => index + 722);
+      document.getElementById("continueButton").classList.add("d-none");
     } else if (selectValue === "galar") {
       regionPokemons = Array.from({ length: 97 }, (_, index) => index + 810);
-      } else if (selectValue === "paldea") {
-        regionPokemons = Array.from({ length: 120 }, (_, index) => index + 906);
+      document.getElementById("continueButton").classList.add("d-none");
+    } else if (selectValue === "paldea") {
+      regionPokemons = Array.from({ length: 120 }, (_, index) => index + 906);
+      document.getElementById("continueButton").classList.add("d-none");
     }
 
     await Promise.all(regionPokemons.map((pokemonId, index) => fetchPokemonData(pokemonId, index)));
@@ -350,18 +422,27 @@ regionSelect.addEventListener("change", async (event) => {
   renderPokemonCards(filteredPokemons);
 });
 
-continueButton.addEventListener("click", () => {
-  const currentLength = pokemonList.length;
-  const newPokemonList = [];
-  for (let i = 0; i < 18; i++) {
-    newPokemonList.push(currentLength + i + 1);
-  }
-  pokemonList.push(...newPokemonList);
-  Promise.all(pokemonList.map((pokemonId, index) => fetchPokemonData(pokemonId, index)))
-    .then(() => {
-      console.log("Todos os Pokémon foram carregados!");
-    });
-});
+// Função para configurar o evento do botão continuar
+function setupContinueButtonEvent() {
+  // Adiciona um evento de click no botão continuar
+  continueButton.addEventListener("click", () => {
+    const currentLength = pokemonList.length;
+    // Adiciona mais 18 Pokémon à lista
+    const newPokemonList = [];
+    for (let i = 0; i < 18; i++) {
+      newPokemonList.push(currentLength + i + 1);
+    }
+    // Adiciona os novos Pokémon à lista e carrega os dados
+    pokemonList.push(...newPokemonList);
+    Promise.all(pokemonList.map((pokemonId, index) => fetchPokemonData(pokemonId, index)))
+      .then(() => {
+        console.log("Todos os Pokémon foram carregados!");
+      });
+  });
+}
+
+// Chama a função para configurar o evento do botão continuar
+setupContinueButtonEvent();
 
 // Carrega todos os Pokémon
 Promise.all(pokemonList.map((pokemonId, index) => fetchPokemonData(pokemonId, index)))

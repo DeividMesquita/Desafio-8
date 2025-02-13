@@ -59,11 +59,20 @@
 .l-navbar {
     background-color: var(--header);
     box-shadow: 0px 0px 10px var(--box-shadow);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
 }
 
 .c-navbar {
     height: 60px;
     align-items: center;
+}
+
+.c-menu {
+    margin-top: 6.875rem !important;
 }
 
 .form-select {
@@ -196,7 +205,7 @@
 
 .l-card__favorite i {
     position: absolute;
-    top: -10px;
+    top: 0;
     left: 4.0625rem;
 }
 
@@ -521,9 +530,12 @@
 }
 
 @keyframes bounce {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-0.5rem);
     }
@@ -532,6 +544,47 @@
 .backTop a:hover {
     animation: none;
     transform: translateY(-0.5rem);
+}
+
+.not-Found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 9.375rem;
+}
+
+.not-Found p {
+    font-size: 1.3125rem;
+    line-height: 1.5rem;
+}
+
+.not-Found button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 10px var(--box-shadow);
+    border: 1px solid var(--border-solid);
+    border-radius: 2rem;
+    width: 6.25rem;
+    height: 2.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1.3125rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.not-Found:hover button {
+    background-color: var(--header);
+    color: var(--default);
+    transition: 0.5s;
+}
+
+.c-footer__content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 0.3125rem;
 }
 
 @media (max-width: 1243px) {
@@ -563,12 +616,20 @@
         align-items: flex-start;
     }
 
+    .fav-modal {
+        right: -60px;
+        left: auto;
+    }
+
 }
 
 @media (max-width: 700px) {
 
-    .c-modal__box {
-        width: 62%;
+
+
+    .fav-modal {
+        right: -10px;
+        left: auto;
     }
 
 }
@@ -611,12 +672,28 @@
         width: 80%;
     }
 
+    .l-footer {
+        margin-top: 2rem !important;
+    }
+
+    .c-footer__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
 }
 
 @media (max-width: 375px) {
 
     .c-modal__box {
         width: 95%;
+    }
+
+    .backTop a {
+        width: 36px;
+        height: 36px;
     }
 
 }
