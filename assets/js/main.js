@@ -361,6 +361,7 @@ function setupFavoriteFilterEvent() {
       document.getElementById("backButton").addEventListener("click", () => {
         renderPokemonCards(allPokemons.slice(0, 18));
       });
+      document.getElementById("continueButton").classList.add("d-none");
     } else {
       renderPokemonCards(favoritePokemonList);
     }
