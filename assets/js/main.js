@@ -250,6 +250,7 @@ function setupSearchEvent() {
       pokemonContainer.innerHTML = `<div class="not-Found"><p>Pokémon com nome ou ID ${searchValue} não encontrado.</p><button class="l-pagination__btn" id="backButton">VOLTAR</button></div>`;
       document.getElementById("backButton").addEventListener("click", () => {
         renderPokemonCards(allPokemons.slice(0, 18));
+        document.getElementById("continueButton").classList.remove("d-none");
       });
       document.getElementById("continueButton").classList.add("d-none");
     }
@@ -288,6 +289,7 @@ function setupTypeFilterEvent() {
       pokemonContainer.innerHTML = `<div class="not-Found"><p>Pokémon do tipo ${selectValue} não encontrado.</p><button class="l-pagination__btn" id="backButton">VOLTAR</button></div>`;
       document.getElementById("backButton").addEventListener("click", () => {
         renderPokemonCards(allPokemons.slice(0, 18));
+        document.getElementById("continueButton").classList.remove("d-none");
       });
       console.log("Nenhum Pokémon encontrado.");
       document.getElementById("continueButton").classList.add("d-none");
@@ -360,6 +362,7 @@ function setupFavoriteFilterEvent() {
       pokemonContainer.innerHTML = '<div class="not-Found"><p>Nenhum Pokemon favoritado.</p><button class="l-pagination__btn" id="backButton">VOLTAR</button></div>';
       document.getElementById("backButton").addEventListener("click", () => {
         renderPokemonCards(allPokemons.slice(0, 18));
+        document.getElementById("continueButton").classList.remove("d-none");
       });
       document.getElementById("continueButton").classList.add("d-none");
     } else {
