@@ -104,22 +104,22 @@ function renderPokemonCards(pokemons) {
     const pokemonCard = `
       <div class="c-card__pokemon" style="--type-color:${typeColors[pokemon.types[0]]};">
       <div class="l-card__favorite">
-        <i class="fa-${isFavorite ? "solid" : "regular"} fa-heart" onclick="toggleFavorite(${pokemon.id}, this)"></i>
+      <i class="fa-${isFavorite ? "solid" : "regular"} fa-heart" onclick="toggleFavorite(${pokemon.id}, this)"></i>
       </div>
       <div class="c-card__content">
       <div class="c-card__image">
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" alt="${pokemon.name}" />
+      <img src="https://raw.githubusercontent.com/DeividsonMesquita/Desafio-8/main/assets/img/${pokemon.id}.png" alt="${pokemon.name}" />
       </div>
       <div class="c-card__info">
-        <p class="m-0">#${pokemon.id.toString().padStart(3, "0")}</p>
-        <p class="m-0">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
+      <p class="m-0">#${pokemon.id.toString().padStart(3, "0")}</p>
+      <p class="m-0">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
       </div>
       <div class="c-card__type">
-        ${pokemon.types.map((type) => `
-        <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
-          <img src="assets/img/${type} type icon.png">
-          <p>${type}</p>
-        </span>`).join(" ")}
+      ${pokemon.types.map((type) => `
+      <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
+        <img src="https://raw.githubusercontent.com/DeividsonMesquita/Desafio-8/main/assets/img/${type}%20type%20icon.png">
+        <p>${type}</p>
+      </span>`).join(" ")}
       </div>
       </div>
       </div>`;
