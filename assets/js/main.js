@@ -117,8 +117,8 @@ function renderPokemonCards(pokemons) {
       <div class="c-card__type">
       ${pokemon.types.map((type) => `
       <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
-        <img src="https://raw.githubusercontent.com/DeividsonMesquita/Desafio-8/main/assets/img/${type}%20type%20icon.png">
-        <p>${type}</p>
+      <img src="https://raw.githubusercontent.com/DeividsonMesquita/Desafio-8/main/assets/img/${type}-type-icon.png">
+      <p>${type}</p>
       </span>`).join(" ")}
       </div>
       </div>
@@ -163,7 +163,7 @@ function modalPokemon(pokemon) {
           <div class="l-modal__type--container">
           ${pokemon.types.map((type) => `
             <span class="l-modal__type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
-              <img src="assets/img/${type} type icon.png">
+              <img src="https://raw.githubusercontent.com/DeividsonMesquita/Desafio-8/main/assets/img/${type}-type-icon.png">
               <p>${type}</p>
             </span>`).join(" ")}
             </div>
