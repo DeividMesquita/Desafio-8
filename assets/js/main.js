@@ -192,7 +192,7 @@ function modalPokemon(pokemon) {
         </div>
       </div>
     </div>`;
-  
+   
   // const para o modal e mostrar na tela com o display block
   const modal = document.getElementById("pokemonModal");
   modal.innerHTML = modalContent;
