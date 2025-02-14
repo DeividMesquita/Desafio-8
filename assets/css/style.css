@@ -62,7 +62,7 @@
 }
 
 .c-navbar {
-    height: 60px;
+    height: 3.75rem;
     align-items: center;
 }
 
@@ -143,7 +143,7 @@
 
 .l-dropdown__type p {
     font-size: 0.75rem;
-    line-height: 16px;
+    line-height: 1rem;
     font-weight: 700;
     border: 1px solid var(--border-solid);
     padding: 0.375rem;
@@ -185,7 +185,7 @@
 }
 
 .c-card__pokemon:hover {
-    border: 1px solid var(--type-color);
+    border: 0.0625rem solid var(--type-color);
     transition: 0.6s;
 }
 
@@ -374,10 +374,10 @@
 
 .fav-modal {
     position: absolute;
-    top: 10px;
-    left: -60px;
-    font-size: 30px;
-    line-height: 24px;
+    top: 0.625rem;
+    left: -3.75rem;
+    font-size: 1.875rem;
+    line-height: 1.5rem;
 }
 
 .l-modal__tag p:first-child {
@@ -465,7 +465,7 @@
     line-height: 1.75rem;
     border: 1px solid #9FA19F;
     border-radius: 1.5rem;
-    padding: 8px 24px 8px 24px;
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
     margin: 0;
 }
 
@@ -493,7 +493,7 @@
     font-size: 1.3125rem;
     line-height: 1.75rem;
     border: 1px solid #9FA19F;
-    border-radius: 24px;
+    border-radius: 1.5rem;
     padding: 0.5rem 1.5rem 0.5rem 1.5rem;
     margin: 0;
     font-weight: 400;
@@ -608,7 +608,7 @@
     }
 
     .fav-modal {
-        right: -60px;
+        right: -3.75rem;
         left: auto;
     }
 
@@ -619,7 +619,7 @@
 
 
     .fav-modal {
-        right: -10px;
+        right: -0.625rem;
         left: auto;
     }
 
@@ -641,7 +641,7 @@
 
     .l-card__favorite i {
         position: absolute;
-        top: -15px;
+        top: -0.9375rem;
         left: 3.4375rem;
     }
 
