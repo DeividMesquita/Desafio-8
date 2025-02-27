@@ -315,7 +315,8 @@
     margin: 0 auto;
     padding: 1.25rem;
     border: 1px solid var(--border-solid);
-    width: 63%;
+    max-width: 53.75rem;
+    width: 100%;
     border-radius: 0.625rem;
 }
 
@@ -590,16 +591,18 @@
     }
 }
 
-@media (max-width: 870px) {
-    .c-modal__box {
-        width: 97%;
-    }
-}
+
 
 @media (max-width: 800px) {
 
     .c-modal__box {
-        width: 52%;
+        max-width: 440px;
+        width: 100%;
+    }
+
+    .l-modal__img img {
+        width: 100%;
+        height: 100%;
     }
 
     .l-modal__content {
@@ -608,18 +611,7 @@
     }
 
     .fav-modal {
-        right: -3.75rem;
-        left: auto;
-    }
-
-}
-
-@media (max-width: 700px) {
-
-
-
-    .fav-modal {
-        right: -0.625rem;
+        right: -4.125rem;
         left: auto;
     }
 
@@ -628,7 +620,7 @@
 @media (max-width: 545px) {
 
     .c-modal__box {
-        width: 70%;
+        width: 100%;
     }
 
 }
@@ -642,7 +634,7 @@
     .l-card__favorite i {
         position: absolute;
         top: -0.9375rem;
-        left: 3.4375rem;
+        left: 3.625rem;
     }
 
     .c-card__image {
@@ -660,7 +652,13 @@
     }
 
     .c-modal__box {
-        width: 80%;
+        max-width: 21.5625rem;
+        width: 100%;
+    }
+
+    .fav-modal {
+        right: 0;
+        left: auto;
     }
 
     .not-Found {
@@ -687,13 +685,9 @@
 
 @media (max-width: 375px) {
 
-    .c-modal__box {
-        width: 95%;
-    }
-
     .backTop a {
-        width: 36px;
-        height: 36px;
+        width: 2.25rem;
+        height: 2.25rem;
     }
 
 }
