@@ -286,12 +286,13 @@ function setupTypeFilterEvent() {
     document.querySelectorAll(".c-card__pokemon").forEach((pokemon) => {
       const pokemonTypes = Array.from(pokemon.querySelectorAll(".type p")).map(type => type.textContent.toLowerCase());
 
-      if (pokemonTypes.includes(selectValue)) {
-        pokemon.style.display = "";
-      } else {
-        pokemon.style.display = "none";
-      }
-    });
+  // Esconde os Pokémon que não estão na lista filtrada
+  document.querySelectorAll(".c-card__pokemon").forEach(pokemon => {
+    const pokemonId = pokemon.getAttribute("data-id"); // Garante que os IDs batem com os da lista
+    if (!visiblePokemons.some(p => p.id == pokemonId)) {
+      pokemon.style.display = "none";
+    }
+  });
 
     const visiblePokemons = document.querySelectorAll(".c-card__pokemon:not([style*='display: none'])");
     console.log(visiblePokemons);
