@@ -63,6 +63,32 @@ async function fetchRegion(pokemonId) {
   }
 }
 
+function showProgressBar() {
+  let progresswidth = 0;
+  const progress = document.getElementById("progressBar");
+  const styleBar = document.getElementById("progressStyle");
+  styleBar.style.width = `0%`;
+  progress.style.display = "block";
+
+  const interval = setInterval(() => {
+    if (progresswidth <= 100) {
+      styleBar.style.width = `${progresswidth}%`;
+      progresswidth += 25;
+    } else {
+      clearInterval(interval);
+    }
+  }, 800);
+
+}
+
+
+function hideProgressBar() {
+  const progress = document.getElementById("progressBar")
+  document.getElementById("progressStyle");
+  progress.style.display = "none";
+
+}
+
 // Mapeamento de IDs para nomes corrigidos
 const correctedNames = {
   29: "Nidoran ♀",
@@ -143,6 +169,7 @@ const correctedNames = {
 // Função para buscar os dados de um Pokémon
 async function fetchPokemonData(pokemonId, index) {
   try {
+
     // Faz uma requisição para obter os dados do Pokémon
     const response = await fetch(`${baseURL}${pokemonId}`);
     const data = await response.json();
@@ -168,40 +195,51 @@ async function fetchPokemonData(pokemonId, index) {
     }
   } catch (error) {
     console.error(`Erro ao buscar dados do Pokémon com ID ${pokemonId}:`, error);
+  } finally {
+    // Oculta a barra de progresso após a ação
   }
 }
 
 
 // Função para renderizar todos os cards de Pokémon
 function renderPokemonCards(pokemons) {
+ showProgressBar();
+
+
   pokemonContainer.innerHTML = ""; // Limpa o container
-  // Renderiza cada card de Pokémon
-  pokemons.forEach(pokemon => {
-    const isFavorite = favoritePokemons.has(pokemon.id);
-    const pokemonCard = `
-      <div class="c-card__pokemon" style="--type-color:${typeColors[pokemon.types[0]]};">
-      <div class="l-card__favorite">
-        <i class="fa-${isFavorite ? "solid" : "regular"} fa-heart" onclick="toggleFavorite(${pokemon.id}, this)"></i>
-      </div>
-      <div class="c-card__content">
-      <div class="c-card__image">
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" alt="${pokemon.name}" />
-      </div>
-      <div class="c-card__info">
-        <p class="m-0">#${pokemon.id.toString().padStart(3, "0")}</p>
-        <p class="m-0">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
-      </div>
-      <div class="c-card__type">
-        ${pokemon.types.map((type) => `
-        <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
-          <img src="https://deividmesquita.github.io/Desafio-8/assets/img/${type}-type-icon.png">
-          <p>${type}</p>
-        </span>`).join(" ")}
-      </div>
-      </div>
-      </div>`;
-    pokemonContainer.innerHTML += pokemonCard;
-  });
+
+  setTimeout(() => {
+    // Renderiza cada card de Pokémon
+    pokemons.forEach(pokemon => {
+      const isFavorite = favoritePokemons.has(pokemon.id);
+      const pokemonCard = `
+        <div class="c-card__pokemon" style="--type-color:${typeColors[pokemon.types[0]]};">
+        <div class="l-card__favorite">
+          <i class="fa-${isFavorite ? "solid" : "regular"} fa-heart" onclick="toggleFavorite(${pokemon.id}, this)"></i>
+        </div>
+        <div class="c-card__content">
+        <div class="c-card__image">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" alt="${pokemon.name}" />
+        </div>
+        <div class="c-card__info">
+          <p class="m-0">#${pokemon.id.toString().padStart(3, "0")}</p>
+          <p class="m-0">${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
+        </div>
+        <div class="c-card__type">
+          ${pokemon.types.map((type) => `
+          <span class="type" style="--type-color:${typeColors[type]}; --type-color-hover:${typeColorsHovers[type]};">
+            <img src="https://deividmesquita.github.io/Desafio-8/assets/img/${type}-type-icon.png">
+            <p>${type}</p>
+          </span>`).join(" ")}
+        </div>
+        </div>
+        </div>`;
+      pokemonContainer.innerHTML += pokemonCard;
+    });
+    hideProgressBar();
+  }, 4000);
+
+
 }
 
 // função para logica do modal
